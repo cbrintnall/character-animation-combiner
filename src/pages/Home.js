@@ -62,8 +62,8 @@ const Home = () => {
             onMainModelUpload={onMainModelUpload}
             onAnimationUpload={onAnimationUpload}
           />
-          <Export />
           <ChangeTexture />
+          <Export />
           <Info />
         </div>
         <div className="col m6">

@@ -14,10 +14,6 @@ export default (path, type, callback) => {
         if (child.isMesh) {
           child.castShadow = true;
           child.receiveShadow = true;
-
-          if (child.isMaterial) {
-            console.log("asd");
-          }
         }
       });
 

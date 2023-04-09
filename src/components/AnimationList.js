@@ -20,13 +20,6 @@ const AnimationList = () => {
     }
   }, [action]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      if (document.querySelectorAll(".collection-item")[4])
-        document.querySelectorAll(".collection-item")[4].click();
-    }, 10000);
-  }, []);
-
   const playAnimation = (animation) => {
     if (animation.uuid === playing) return;
     if (action) action.stop();
@@ -61,7 +54,7 @@ const AnimationList = () => {
           >
             <span className="left material-icons">report</span>
 
-            <span className="col">No animations found !!</span>
+            <span className="col">No animations loaded</span>
           </li>
         )}
         {animations.length && (

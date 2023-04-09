@@ -8,6 +8,15 @@ import resizeWindow from "../helpers/resizeWindow";
 import loadModel from "../helpers/loadModel";
 import { Context as ModalContext } from "../context/ModelContext";
 
+const tryModifySkinnedMesh = mesh => {
+  if (mesh.isSkinnedMesh) {
+    // mesh.bindMode = "detached";
+    // mesh.normalize
+  } else {
+    mesh.children.forEach(tryModifySkinnedMesh);
+  }
+}
+
 const ModelViewer = ({ model, fileExt }) => {
   const viewer = useRef(null);
   const {
@@ -62,6 +71,8 @@ const ModelViewer = ({ model, fileExt }) => {
 
       let mainModel = fileExt === "fbx" ? object : object.scene;
 
+      console.log(mainModel)
+      tryModifySkinnedMesh(mainModel);
       scene.add(mainModel);
 
       // Add main model in reducer

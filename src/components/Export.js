@@ -26,47 +26,39 @@ const Export = () => {
     save(new Blob([buffer], { type: "application/octet-stream" }), filename);
   };
 
-  const exportGLB = () => {
+  const exportModel = cb => () =>{
     toggleLoading();
     try {
-      var exporter = new GLTFExporter();
-
-      // Parse the input and generate the glTF output
-      exporter.parse(
-        mainModel,
-        function (result) {
-          saveArrayBuffer(result, `cac-${new Date().getTime()}.glb`);
-        },
-        { trs: true, binary: true, animations: animations }
-      );
+      cb();
     } catch (error) {
       toggleLoading();
       alert(
         "Error: Try deleting the texture, if that does not help, Open an issue on the Github Repo"
       );
     }
+  }
+
+  const exportGLB = () => {
+    // Parse the input and generate the glTF output
+    new GLTFExporter().parse(
+      mainModel,
+      function (result) {
+        saveArrayBuffer(result, `cac-${new Date().getTime()}.glb`);
+      },
+      { trs: true, binary: true, animations: animations }
+    );
   };
 
   const exportGLTF = () => {
-    try {
-      toggleLoading();
-      var exporter = new GLTFExporter();
-
-      // Parse the input and generate the glTF output
-      exporter.parse(
-        mainModel,
-        function (result) {
-          var output = JSON.stringify(result, null, 2);
-          saveString(output, `cac-${new Date().getTime()}.gltf`);
-        },
-        { trs: true, binary: false, animations: animations }
-      );
-    } catch (error) {
-      toggleLoading();
-      alert(
-        "Error: Try deleting the texture, if that does not help, Open an issue on the Github Repo"
-      );
-    }
+    // Parse the input and generate the glTF output
+    new GLTFExporter().parse(
+      mainModel,
+      function (result) {
+        var output = JSON.stringify(result, null, 2);
+        saveString(output, `cac-${new Date().getTime()}.gltf`);
+      },
+      { trs: true, binary: false, animations: animations }
+    );
   };
 
   return (
@@ -77,17 +69,17 @@ const Export = () => {
         <button
           style={{ margin: "0 auto" }}
           className="waves-effect waves-light btn-large indigo accent-4 col m12 l6"
-          onClick={exportGLTF}
+          onClick={exportModel(exportGLTF)}
         >
-          Export GLTF
+          GLTF
         </button>
 
         <button
           style={{ margin: "0 auto" }}
           className="waves-effect waves-light btn-large indigo accent-4 col m12 l6"
-          onClick={exportGLB}
+          onClick={exportModel(exportGLB)}
         >
-          Export GLB
+          GLB
         </button>
       </div>
     </div>
